@@ -2,8 +2,9 @@ import sqlite3
 import csv
 import os
 
-UPLOAD_DIR = "/mnt/user-data/uploads"
-DB_PATH = "/mnt/user-data/outputs/vendor_performance.db"
+HERE = os.path.dirname(os.path.abspath(__file__))
+UPLOAD_DIR = os.path.join(HERE, "raw_data")
+DB_PATH = os.path.join(HERE, "vendor_performance.db")
 
 FILES = {
     "prices":    "1790170654761_2017PurchasePricesDec.csv",
@@ -29,7 +30,6 @@ def to_float(v):
     except ValueError:
         return None
 
-os.makedirs("/mnt/user-data/outputs", exist_ok=True)
 if os.path.exists(DB_PATH):
     os.remove(DB_PATH)  # rebuild clean each run
 
@@ -37,7 +37,7 @@ conn = sqlite3.connect(DB_PATH)
 conn.execute("PRAGMA foreign_keys = ON;")  # enforce the FK relationships, don't just declare them
 cur = conn.cursor()
 
-with open("/home/claude/warehouse/schema.sql") as f:
+with open(os.path.join(HERE, "schema.sql")) as f:
     cur.executescript(f.read())
 
 # ---------- DIM_PRODUCT ----------

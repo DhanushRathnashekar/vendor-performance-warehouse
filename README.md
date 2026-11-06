@@ -52,3 +52,13 @@ SQLite, SQL, Python, VS Code, Git
 - Export query results and build a Power BI dashboard
 - Add demand forecasting and an inventory optimization model
 - Build a supplier scorecard combining cost, lead time and payment terms
+## Rebuilding the database
+
+The database file (about 270 MB) is not stored in this repository. To rebuild it:
+
+1. Download the six CSV files of the Kaggle "Vendor Performance Analysis" dataset.
+2. Create a folder named `raw_data` next to `build_warehouse.py` and put the six files in it. The file names must match the `FILES` list at the top of `build_warehouse.py`; edit that list if your names differ.
+3. Run `python build_warehouse.py`. It needs Python 3 and no extra packages.
+4. `vendor_performance.db` is created in the same folder, and the queries in `queries/` can be run against it.
+
+The script deletes and recreates the database each time it runs.
